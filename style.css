@@ -102,13 +102,39 @@ header h2 {
   right: 0;
   bottom: 0;
   height: 90px;
-  background: linear-gradient(180deg, var(--ground), #2f6aa0);
+  background: linear-gradient(0deg, var(--ground), #00000098);
   display: flex;
   align-items: center;
   padding-left: 18px;
   z-index: 2;
+  
+  /* Extra styling */
+  border-top: 10px solid rgba(255,255,255,0.3); /* upper shine line */
+  box-shadow: 0 -4px 12px rgba(0,0,0,0.4) inset; /* inner shadow */
+  overflow: hidden;
 }
 
+/* Road stripes effect */
+.ground::before {
+  content: "";
+  position: absolute;
+  top: -5%;
+  left: 0;
+  width: 200%;
+  height: 10px;
+  background: repeating-linear-gradient(
+    to right,
+    rgb(255,255,255) 0 40px,
+    transparent 40px 80px
+  );
+  animation: moveRoad 0.4s linear infinite;
+  opacity: 0.8;
+}
+
+@keyframes moveRoad {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-80px); }
+}
 /* Track (optional reference line) */
 .track {
   position: relative;
@@ -122,7 +148,7 @@ header h2 {
 .player {
   position: absolute;
   left: 72px;
-  bottom: 85px;
+  bottom: 80px;
   width: 64px;
   height: 64px;
   transform-origin: center bottom;
@@ -143,7 +169,7 @@ header h2 {
   left: 0;
   right: 0;
   top: 0;         
-  bottom: -8px;    /* ← bas thoda neeche */
+  bottom: -35px;    /* ← bas thoda neeche */
   pointer-events: none;
   z-index: 3;
 }
@@ -171,7 +197,7 @@ header h2 {
 /*========================
   Score Overlay
 ========================*/
-.overlay {
+/* .overlay {
   position: absolute;
   right: 16px;
   top: 12px;
@@ -181,7 +207,7 @@ header h2 {
   font-weight: 700;
   color: #05223a;
 }
-
+ */
 /* Centered Messages */
 .center-msg {
   position: absolute;
@@ -193,7 +219,7 @@ header h2 {
 }
 
 .center-msg .text {
-  background: rgba(255, 255, 255, 0.85);
+  background: rgba(235,0,0,0.256);
   padding: 10px 14px;
   border-radius: 10px;
   color: #05223a;
@@ -291,5 +317,41 @@ button.alt {
   .obstacle {
     width: 64px;
     height: 64px;
+  }
+}
+.mountain {
+  position: relative;
+  bottom: -150px;
+  width: 200%; /* double width for seamless scroll */
+  height: 120px;
+  background: linear-gradient(to top, #2f6aa0, #ffffff 40%, #7aa2d6 100%); /* top white for snow effect */
+  clip-path: polygon(
+    0% 100%, 10% 70%, 20% 85%, 30% 60%, 40% 80%, 50% 55%, 
+    60% 75%, 70% 65%, 80% 80%, 90% 70%, 100% 100%, 
+    100% 100%, 0% 100%
+  ); 
+  animation: slideMountain 30s linear infinite, fadeMountain 30s ease-in-out infinite;
+  filter: blur(20px);       /* mountain blur */
+  opacity: 0.95;          
+}
+
+@keyframes slideMountain {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%); /* exact half of width for seamless loop */
+  }
+}
+
+@keyframes fadeMountain {
+  0%, 100% {
+    opacity: 0;   /* fade out */
+  }
+  25%, 75% {
+    opacity: 0.95;  /* fade in */
+  }
+  50% {
+    opacity: 1;   /* fully visible */
   }
 }
