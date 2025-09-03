@@ -319,6 +319,9 @@ button.alt {
     height: 64px;
   }
 }
+/*========================
+  mountain
+========================*/
 .mountain {
   position: relative;
   bottom: -150px;
@@ -355,3 +358,9 @@ button.alt {
     opacity: 1;   /* fully visible */
   }
 }
+/*========================
+  MONXtag
+========================*/
+/* .MONXtag{
+  color: white;
+} */
