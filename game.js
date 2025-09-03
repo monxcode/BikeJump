@@ -8,7 +8,17 @@
   const msgText = document.getElementById('msgText');
   const btnRestart = document.getElementById('btnRestart');
   const btnPause = document.getElementById('btnPause');
+// ===== Audio =====
+const bgAudio = new Audio('bgrunning.mp3');
+bgAudio.loop = true;
+bgAudio.volume = 0.5;
 
+const failAudio = new Audio('fail.mp3');
+failAudio.volume = 0.7;
+
+const jumpAudio = new Audio('click.mp3');
+jumpAudio.volume = 0.5;
+//audio end
   let running = false;
   let paused = false;
   let lastTime = 0;
@@ -59,6 +69,9 @@
 
   function gameOver(){
     running = false;
+    bgAudio.pause();
+failAudio.currentTime = 0;
+failAudio.play().catch(()=>{});
     centerMsg.style.pointerEvents = 'auto';
     centerMsg.style.display = 'flex';
     msgText.textContent = 'Game Over — Tap / Press ↑ to play again';
@@ -82,6 +95,8 @@
     running = true;
     paused = false;
     centerMsg.style.display = 'none';
+    bgAudio.currentTime = 0;
+bgAudio.play().catch(()=>{}); // browsers ke autoplay restrictions ke liye catch
     msgText.textContent = '';
     resetPlayer();
     requestAnimationFrame(loop);
@@ -90,6 +105,8 @@
   function togglePause(){
     if(!running) return;
     paused = !paused;
+    if(paused) bgAudio.pause();
+else bgAudio.play().catch(()=>{});
     btnPause.textContent = paused ? 'Resume' : 'Pause';
     if(!paused) lastTime = performance.now(), requestAnimationFrame(loop);
   }
@@ -150,8 +167,15 @@
   function jump(){
     if(!running){ startGame(); return; }
     if(paused) return;
-    if(player.onGround){ player.vy = jumpVel; player.onGround=false; playerEl.style.transform='translateY(-6px) scale(1.03)'; }
-  }
+    if(player.onGround){
+        player.vy = jumpVel; 
+        player.onGround = false; 
+        playerEl.style.transform='translateY(-6px) scale(1.03)';
+
+        jumpAudio.currentTime = 0;
+        jumpAudio.play();  // 🎵 jump sound
+    }
+}
 
   area.addEventListener('click', e => { if(!e.target.closest('button')) jump(); }, {passive:true});
   area.addEventListener('touchstart', e => { if(!e.target.closest('button')) jump(); }, {passive:true});

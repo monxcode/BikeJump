@@ -242,12 +242,12 @@ button.alt {
 
 #cloud1 {
   top: 50px;
-  left: -50px;
+  left: -350px;
 }
 
 #cloud2 {
   top: 120px;
-  left: -300px;
+  left: -100px;
   animation-delay: 0s;
 }
 #cloud3 {
@@ -255,10 +255,10 @@ button.alt {
   left: -200px;
 }
 @keyframes moveCloud {
-  0% {
+  100% {
     transform: translateX(0);
   }
-  100% {
+  0% {
     transform: translateX(200vw);
   }
 }
